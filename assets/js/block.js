@@ -6,7 +6,7 @@
 function Block (grid, typeOfBlock, squareSize) { 
   // public properties
   this.squaresInGrid = []; // The positions of the block's squares when it appears on screen 
-  this.centerX = grid.theWidth/2-1; // position of the center on the horizontal axis
+  this.centerX = grid.w/2-1; // position of the center on the horizontal axis
   this.centerY = 1; // position of the center on the vertical axis
   this.squaresSprites = [];
   this.squareSize = squareSize;
@@ -126,18 +126,20 @@ Block.prototype.move = function(dir) {
       for (var j = this.squaresInGrid.length - 1; j >= 0; j--) {
         this.grid.squares.push(this.squaresInGrid[j]);
       };
+      this.grid.handleFullLines(this);
       return false;
     };
     // If the bottom line would be crossed, do logic and exit.
-    if (movedSquares[i].y >= this.grid.theHeight) {
+    if (movedSquares[i].y >= this.grid.h) {
       // add the block squares to the grid
       for (var j = this.squaresInGrid.length - 1; j >= 0; j--) {
         this.grid.squares.push(this.squaresInGrid[j]);
       }
+      this.grid.handleFullLines(this);
       return false;
     }
     // If the left and right boundaries would be crossed, do nothing and exit.
-    if (movedSquares[i].x >= this.grid.theWidth || movedSquares[i].x < 0) {
+    if (movedSquares[i].x >= this.grid.w || movedSquares[i].x < 0) {
       return false;
     };
   };
@@ -150,7 +152,6 @@ Block.prototype.move = function(dir) {
     this.squaresSprites[i].x += dx*this.squareSize;
     this.squaresSprites[i].y += dy*this.squareSize;
   };
-  this.grid.checkForFullLines();
   return true;
 };
 
