@@ -121,10 +121,11 @@ Block.prototype.move = function(dir) {
   for (var i = this.squaresInGrid.length - 1; i >= 0; i--) {
     movedSquares[i]={'x':this.squaresInGrid[i].x+dx,'y':this.squaresInGrid[i].y+dy};
     // If it collides with an element in the grid do logic and exit.
-    if(member(movedSquares[i].x,movedSquares[i].y,this.grid.squares)) {
+    if( member(this.squareSize * movedSquares[i].x , this.squareSize * movedSquares[i].y, this.grid.squares)) {
       // add the block squares to the grid
       for (var j = this.squaresInGrid.length - 1; j >= 0; j--) {
-        this.grid.squares.push(this.squaresInGrid[j]);
+        // this.grid.squares.push(this.squaresInGrid[j]);
+        this.grid.squares.push(this.squaresSprites[j]);
       };
       this.grid.handleFullLines(this);
       return false;
@@ -133,7 +134,8 @@ Block.prototype.move = function(dir) {
     if (movedSquares[i].y >= this.grid.h) {
       // add the block squares to the grid
       for (var j = this.squaresInGrid.length - 1; j >= 0; j--) {
-        this.grid.squares.push(this.squaresInGrid[j]);
+        // this.grid.squares.push(this.squaresInGrid[j]);
+        this.grid.squares.push(this.squaresSprites[j]);
       }
       this.grid.handleFullLines(this);
       return false;

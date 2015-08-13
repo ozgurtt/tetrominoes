@@ -130,7 +130,6 @@ var Game = {
     } else if ( framesTillNextRot > 0 ) {
         framesTillNextRot -= 1;
     };
-    console.log(framesTillNextRot);
     
     // Add formula to calculate game speed based on the score.
     // The higher the score, the higher the game speed, with a maximum of 10;

@@ -1,10 +1,13 @@
 // A Grid is defined by its width, its height and the positions of the
 // squares left from former blocks.
 function Grid (w, h) {
-  // squares stores the coordinates of the squares from former blocks still 
+  // // squares stores the coordinates of the squares from former blocks still 
+  // // visible in the grid.
+  // this.squares = [];
+  
+  // 'squares' stores the sprites of the squares from former blocks still
   // visible in the grid.
   this.squares = [];
-  this.squaresSprites = [];
   this.w = w;
   this.h = h;
 }
@@ -29,7 +32,7 @@ Grid.prototype.handleFullLines = function (block) {
   for (var i = linesToCheck.length - 1; i >= 0; i--) {
     var j = this.w - 1;
     for (; j >= 0; j--) {
-      if (! member(j, linesToCheck[i], this.squares) ) {
+      if (! member( block.squareSize * j , block.squareSize * linesToCheck[i] , this.squares) ) {
         break;
       } 
     };
@@ -39,19 +42,18 @@ Grid.prototype.handleFullLines = function (block) {
   // Delete the full lines
   for (var i = linesToDelete.length - 1; i >= 0; i--) {
     console.log("i = " + i);
-    for (var j = block.squaresSprites.length - 1; j >= 0; j--) {
+    for (var j = this.squares.length - 1; j >= 0; j--) {
       console.log("j = " + j);
-      var sprite = block.squaresSprites[j];
+      var sprite = this.squares[j];
       console.log("sprite.y " + sprite.y);
       console.log("toDelete " + linesToDelete[i]);
       console.log("sqs " + block.squareSize);
-      
-
       console.log("toDelete " + (linesToDelete[i]*block.squareSize));
 
       if (sprite.y == linesToDelete[i]*block.squareSize) {
         console.log("destroy " + y);
-        sprite.destroy(); 
+        this.squares.splice(j, 1);
+        sprite.destroy();
       }
     };
   };
