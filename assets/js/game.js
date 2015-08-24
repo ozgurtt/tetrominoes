@@ -1,12 +1,18 @@
 var currentKey, lastKey, holdDownDelay, holdDownFirstDelay, framesTillNextMove,
-framesTillNextRot, turnCWkey, turnCCWkey, downKey, leftKey, rightKey, grid,
+framesTillNextRot, turnCWkey, turnCCWkey, downKey, dropKey, leftKey, rightKey, grid,
 fallingBlock, squareSize, gridWidth, gridHeight, speed, score, clock, angle;
 
 var Game = {
 
   preload: function() {
     // Load the needed resources for the level.
-    game.load.image('square', './assets/images/square.png');
+    game.load.image('L', './assets/images/L.png');
+    game.load.image('J', './assets/images/J.png');
+    game.load.image('S', './assets/images/S.png');
+    game.load.image('Z', './assets/images/Z.png');
+    game.load.image('T', './assets/images/T.png');
+    game.load.image('O', './assets/images/O.png');
+    game.load.image('I', './assets/images/I.png');
   },
 
   create: function() {
@@ -14,7 +20,7 @@ var Game = {
     // on game start. We need them to be globally available so that the update
     // function can alter them.
     fallingBlock = {};
-    squareSize = 15; // Blocks are built with 'squareSize' px wide squares.
+    squareSize = 15; // Blocks are built with 'squareSize' pixels wide squares.
     gridWidth = 10; // The grid is 'gridWidth' squares wide.
     gridHeight = 18;  // The grid is 'gridHeight' squares high.
     grid = new Grid(gridWidth, gridHeight);
@@ -37,6 +43,7 @@ var Game = {
     downKey = game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
     leftKey = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
     rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
+    dropKey =  game.input.keyboard.addKey(Phaser.Keyboard.S);
 
     // Set up the styles
     game.stage.backgroundColor = '#061f27';
@@ -70,6 +77,8 @@ var Game = {
       currentKey = {direction: 'left', timeDown: leftKey.timeDown};
     } else if (downKey.isDown) {
       currentKey = {direction: 'down', timeDown: downKey.timeDown};
+    } else if (dropKey.isDown) {
+      currentKey = {direction: 'drop'};
     } else {
       currentKey = {};
     };
@@ -83,30 +92,33 @@ var Game = {
       angle = 0;
     };
 
+    // Handle drop action
+    if(currentKey.direction == 'drop') {
+        this.fallingBlock.drop();
+    } else if (currentKey.direction != undefined) {
     // Handle translations when keys are pressed mutiple times compared to
     // when a key is hold down.
-    if (currentKey.direction != undefined) {
       if (lastKey.direction != undefined) {
         if (currentKey.direction == lastKey.direction) {
           if (currentKey.timeDown == lastKey.timeDown) {
             if (framesTillNextMove == 0) {
-              this.fallingBlock.move(currentKey.direction);
+              this.fallingBlock.move(currentKey.direction, 'key');
               framesTillNextMove = holdDownDelay;
             } else {
               framesTillNextMove--;
             };
           } else {
-            this.fallingBlock.move(currentKey.direction);
+            this.fallingBlock.move(currentKey.direction, 'key');
             lastKey.timeDown = currentKey.timeDown;
             framesTillNextMove = holdDownFirstDelay;
           };
         } else {
-          this.fallingBlock.move(currentKey.direction);
+          this.fallingBlock.move(currentKey.direction, 'key');
           lastKey = currentKey;
           framesTillNextMove = holdDownFirstDelay;
         };
       } else {
-        this.fallingBlock.move(currentKey.direction);
+        this.fallingBlock.move(currentKey.direction, 'key');
         lastKey = currentKey;
       };
     };
@@ -133,7 +145,7 @@ var Game = {
     if (clock % (50 - speed) == 0) {
       // Move the block down. If impossible, then bottom has been reached and
       // a new block is generated.
-      if (!this.fallingBlock.move('down')) {
+      if (!this.fallingBlock.move('down','game')) {
         this.generateNewBlock();
         this.fallingBlock.display(game);
       };
