@@ -94,7 +94,20 @@ Block.prototype.rotate = function(angle) {
     vector = [this.squaresInGrid[i].x - this.center.x , this.squaresInGrid[i].y - this.center.y];
     rotVector = [vector[0] * cos - vector[1] * sin , vector[1] * cos + vector[0] * sin];
     rotatedSquares[i] = {'x': this.center.x + rotVector[0] , 'y': this.center.y + rotVector[1]};
+    // If the bottom line would be crossed, do not rotate, exit.
+    if (rotatedSquares[i].y >= this.grid.h) return false;
+    // If the left and right boundaries would be crossed, do not rotate, exit.
+    if (rotatedSquares[i].x >= this.grid.w || rotatedSquares[i].x < 0) return false;
+    // If it collides with an element in the grid do not rotate and exit.
+    if(this.grid.lines[rotatedSquares[i].y] != undefined){
+      if (this.grid.lines[rotatedSquares[i].y].elts[rotatedSquares[i].x] != undefined) return false;
+    };
   };
+
+  // It doesn't collide, and stays within boundaries so we change the
+  // coordinates of the squares in the grid.
+
+
   this.squaresInGrid = rotatedSquares;
   // Display the changes.
   for (var i = this.squaresSprites.length - 1; i >= 0; i--) {
