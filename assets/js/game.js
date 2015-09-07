@@ -154,7 +154,7 @@ var Game = {
   },
 
   generateNewBlock: function() {
-    var typeOfBlock = Math.floor(Math.random() * 6);
+    var typeOfBlock = Math.floor(Math.random() * 7);
     this.fallingBlock = new Block(grid,typeOfBlock,squareSize);
     return typeOfBlock;
   }
