@@ -8,8 +8,10 @@ To run the game, a web server is required. More info here: [(http://phaser.io/tu
 
 ## Note
 
-There are still a few things to be implemented, like for instance:
-- Score
+There are quite a few things still to be implemented, like for instance:
+- Scores
 - Overall design
 - Levels
+- Battle mode
+- ...
 
