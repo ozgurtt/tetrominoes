@@ -17,3 +17,7 @@ There are quite a few things still to be implemented, like for instance:
 - Battle mode
 - ...
 
+## Disclaimer
+
+This is one of the first projects I have attempted when deciding I want to do programming again. (Please, be indulgent.) 
+Pull requests are of course welcome.
