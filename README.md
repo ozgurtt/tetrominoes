@@ -19,6 +19,6 @@ There are quite a few things still to be implemented, like for instance:
 
 ## Disclaimer
 
-This is one of the first projects I attempted when I decided that I wanted to become a web developper. (Please, be indulgent!)
+This is one of the first projects I attempted as a warm-up when I decided that I wanted to become a web developer. (Please, be indulgent!)
 
 Pull requests are of course welcome.
